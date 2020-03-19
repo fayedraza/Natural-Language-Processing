@@ -3,6 +3,7 @@ from nltk.corpus import state_union
 from nltk.tokenize import PunktSentenceTokenizer
 
 #purpose of this program is to intrpduce part of speech tagging
+#also chunking is introduced 
 
 train_text = state_union.raw("2005-GWBush.txt")
 sample_text = state_union.raw("2006-GWBush.txt")
@@ -14,9 +15,21 @@ tokenized  = custom_sent_tokenizer.tokenize(sample_text)
 def process_content():
     try:
         for i in tokenized:
-            words = nltk.word_tokenize(i)
+            words = nltk.word_tokenize(i[5:])
             tagged = nltk.pos_tag(words)
-            print(tagged)
+
+            namedEnt  = nltk.ne_chunk(tagged, binary = True)
+            namedEnt.draw()
+
+            ## Chunking
+            ## chunkGram = r"""Chunk: {<R.*>+}
+            ##                     }<VB.?|IN|DT|>{"""
+            ##chunkParser = nltk.RegexpParser(chunkGram)
+            ##chunked = chunkParser.parse(tagged)
+            ##chunked.draw()
+
+
+           # print(tagged) used for takking
     except Exception as e:
         print(str(e))
 
